@@ -21,12 +21,17 @@ public class AgentLogic : MonoBehaviour
 
     //Visual reference
     [SerializeField] GameObject _visual;
+    [SerializeField] Transform _hinge;
 
     //state machine materials
     [SerializeField] private Material[] materialStates = new Material[2];
     MeshRenderer _materialReference;
-
     
+    
+    //ATTACK STUFF
+    private GameObject _projectile;
+    private Transform _target;
+    private bool isPriorityTarget = false;
     //States
 
     private enum States
@@ -38,15 +43,13 @@ public class AgentLogic : MonoBehaviour
     private States NEXT_STATE = States.IDLE;
     private States CURRENT_STATE = States.IDLE;
 
-    //ATTACK STUFF
-    private GameObject _projectile;
-
+   
     private void Awake()
     {
         _data = GetComponent<TurretData>();
         _materialReference = _visual.GetComponent<MeshRenderer>();
 
-        CURRENT_STATE = States.IDLE;
+        CURRENT_STATE = States.ALERTED;
         NEXT_STATE = States.IDLE;
 
         //_sentinelLogicReference = GameObject.Find("Logic").GetComponent<FieldOfView>();
@@ -71,7 +74,7 @@ public class AgentLogic : MonoBehaviour
         }
 
 
-        UnitReset();
+        //UnitReset();
 
         Debug.Log(CURRENT_STATE);
 
@@ -102,13 +105,13 @@ public class AgentLogic : MonoBehaviour
 
     private void StateToIdle()
     {
-        _materialReference.material = this.materialStates[0];
+        _materialReference.material = materialStates[0];
         CURRENT_STATE = States.IDLE;
     }
     
     private void StateToAlerted()
     {
-        _materialReference.material = this.materialStates[1];
+        _materialReference.material = materialStates[1];
         CURRENT_STATE = States.ALERTED;
     }
     
@@ -119,12 +122,12 @@ public class AgentLogic : MonoBehaviour
     #region State Machines
     private void SM_IDLE()
     {
-        Debug.Log("Idling...");
-
-        StartCoroutine(SM_IDLE_UPDATE());
+        transform.eulerAngles = Vector3.zero;
+       // StartCoroutine(SM_IDLE_UPDATE());
     }
     protected IEnumerator SM_IDLE_UPDATE()
     {
+        
         yield return new WaitForSeconds(UnityEngine.Random.Range(0f, 2f));
         throw new NotImplementedException("Idle Logic not implemented Yet");
     }
@@ -132,15 +135,56 @@ public class AgentLogic : MonoBehaviour
 
     private void SM_ALERTED()
     {
-        
-        //Is there priority target?
-            //YES:
+        switch (isPriorityTarget)
+        {
+
+            case true:
+                //YES:
                 //Attack (Priority Target)  
-            //NO
+
+                break;
+
+            case false:
+                //NO
                 //Check which one is closest
 
+                break;
+        }
+
+        //ATTACK LOGIC
+        if (_unitsInRange.Count == 0)
+        {
+            _hinge.LookAt(null, Vector3.zero);
+            NEXT_STATE = States.IDLE;
+            return;
+        }
+
+
+        float closestDistance = _data.AttackRange;
+        float currentDistance;
+
+
+        foreach (Transform T in _unitsInRange)
+        {
+            currentDistance = Vector3.Distance(transform.position, T.position);
+
+            if (closestDistance < currentDistance)
+                return;
+            else
+            {
+                closestDistance = currentDistance;
+                _target = T;
+                Debug.Log(T);
+                Debug.Log(T.name);
+            }
+        }
+        _hinge.LookAt(_target);
+
         //Attack(Closest Unit)
-        
+
+
+
+
     }
 
     public void UnitSighted(Transform unit)
@@ -168,43 +212,26 @@ public class AgentLogic : MonoBehaviour
         if (other.gameObject.tag != "Player")
             return;
         else
-            StateToAlerted();
+        {
+            NEXT_STATE = States.ALERTED;
             _unitsInRange.Add(other.transform);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag != "Player")
             return;
-        else if(_unitsInRange.Count != 0)
+
+        if (_unitsInRange.Contains(other.transform))
+        {
             _unitsInRange.Remove(other.transform);
-        else
-            StateToIdle();
+        }
     }
+
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag != "Player")
-            return;
-
-        Transform target;
-        float closestDistance = _data.AttackRange;
-        float currentDistance;
-
-
-        foreach (Transform T in _unitsInRange)
-        {
-            currentDistance = Vector3.Distance(transform.position, T.position);
-
-            if (closestDistance < currentDistance)
-                return;
-            else
-            {
-                closestDistance = currentDistance;
-                target = T;
-                Debug.Log(T);
-                Debug.Log(closestDistance);
-            }
-        }
+        
 
     }
 
