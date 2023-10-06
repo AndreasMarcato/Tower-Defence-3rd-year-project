@@ -10,16 +10,18 @@ using UnityEngine.AI;
 using UnityEngine.SocialPlatforms;
 using static UnityEngine.UI.Image;
 
-public class AgentLogic : MonoBehaviour
+public class AgentLogic : MonoBehaviour, IE_Turret
 {
     //SATS
-    private TurretData _data;
+    private TurretData DATA;
+    
     //FOV
     private FieldOfView _sentinelLogicReference;
     
+    //List of Player Units in Range
     private List<Transform> _unitsInRange = new List<Transform>();
 
-    //Visual reference
+    //Visual reference for animations
     [SerializeField] GameObject _visual;
     [SerializeField] Transform _hinge;
 
@@ -29,8 +31,8 @@ public class AgentLogic : MonoBehaviour
     
     
     //ATTACK STUFF
-    private GameObject _projectile;
     private Transform _target;
+    [SerializeField] private Transform _spawnPoint;
     private bool isPriorityTarget = false;
     //States
 
@@ -46,7 +48,7 @@ public class AgentLogic : MonoBehaviour
    
     private void Awake()
     {
-        _data = GetComponent<TurretData>();
+        DATA = GetComponent<TurretData>();
         _materialReference = _visual.GetComponent<MeshRenderer>();
 
         CURRENT_STATE = States.ALERTED;
@@ -135,23 +137,7 @@ public class AgentLogic : MonoBehaviour
 
     private void SM_ALERTED()
     {
-        switch (isPriorityTarget)
-        {
-
-            case true:
-                //YES:
-                //Attack (Priority Target)  
-
-                break;
-
-            case false:
-                //NO
-                //Check which one is closest
-
-                break;
-        }
-
-        //ATTACK LOGIC
+        //Are there player nits?
         if (_unitsInRange.Count == 0)
         {
             _hinge.LookAt(null, Vector3.zero);
@@ -159,13 +145,17 @@ public class AgentLogic : MonoBehaviour
             return;
         }
 
-
-        float closestDistance = _data.AttackRange;
+        //yes, there are player units, calculate which is the closest and if there is a priority one to attack
+        float closestDistance = DATA.AttackRange;
         float currentDistance;
 
 
         foreach (Transform T in _unitsInRange)
         {
+            //if (T.GetComponent<somecomponent>().IsPriorityTarget())
+            //_target = T;
+            //break;
+
             currentDistance = Vector3.Distance(transform.position, T.position);
 
             if (closestDistance < currentDistance)
@@ -181,7 +171,7 @@ public class AgentLogic : MonoBehaviour
         _hinge.LookAt(_target);
 
         //Attack(Closest Unit)
-
+        Attack(_hinge.position, _target.position, DATA.ProjectilePrefab, DATA.ProjectileSpawnParticle, DATA.ProjectileHitParticle, DATA.AttackPower);
 
 
 
@@ -229,10 +219,27 @@ public class AgentLogic : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    public void Attack(Vector3 projectileSpawnPoint, Vector3 projectileTarget, GameObject projectilePrefab, GameObject projectileSpawnParticle, GameObject projectileHitParticle, float projectileAttackPower)
     {
-        
+        GameObject tempProjectile;
+        float speed = 2f;
+        tempProjectile = projectilePrefab;
+        Rigidbody rb = tempProjectile.GetComponent<Rigidbody>();
+        Vector3 force;
+        force = _target.position;
+        Instantiate(tempProjectile, projectileSpawnPoint, transform.rotation, _spawnPoint);
+        rb.AddForce(force * speed, ForceMode.Impulse);
+        Debug.Log("ProjectileCalled");
+    }
 
+    public void DealDamage()
+    {
+        Debug.Log("DamageDealt");
+    }
+
+    public void TakeDamage()
+    {
+        Debug.Log("DamageTaken");
     }
 
     #endregion

@@ -15,3 +15,14 @@ MonoBehaviour:
   attackRange: 20
   attackSpeed: 20
   attackPower: 20
+  health: 50
+  projectile: {fileID: 4370938060941117906, guid: b2c5b26937b057a4287851befc12f9ed,
+    type: 3}
+  projectileSpawnParticle: {fileID: 9132681326357114941, guid: 1efd8d1e26672504e9c6b8c63fbe8d13,
+    type: 3}
+  ProjectileHitParticle: {fileID: 9132681326357114941, guid: 1efd8d1e26672504e9c6b8c63fbe8d13,
+    type: 3}
+  dieParticle: {fileID: 9132681326357114941, guid: 1efd8d1e26672504e9c6b8c63fbe8d13,
+    type: 3}
+  damagedParticle: {fileID: 9132681326357114941, guid: 1efd8d1e26672504e9c6b8c63fbe8d13,
+    type: 3}
