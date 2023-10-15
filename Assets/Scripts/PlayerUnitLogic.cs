@@ -20,14 +20,14 @@ public class PlayerUnitLogic : MonoBehaviour
 
     private void OnEnable()
     {
-        _inputManager.OnScreenTap += ScreenTapped;
+        //_inputManager.OnScreenTap += ScreenTapped;
 
     }
 
 
     private void OnDisable()
     {
-        _inputManager.OnScreenTap -= ScreenTapped;
+        //_inputManager.OnScreenTap -= ScreenTapped;
     }
 
     // Update is called once per frame

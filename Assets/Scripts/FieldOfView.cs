@@ -6,6 +6,7 @@ using UnityEngine;
 [Serializable]
 public class FieldOfView : MonoBehaviour
 {
+    public bool isSentinel = false;
     public float radius;
     [Range(0f, 360f)] public float angle;
 
@@ -25,7 +26,8 @@ public class FieldOfView : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _agentLogic = GetComponent<AgentLogic>();
+        if(!isSentinel)
+            _agentLogic = GetComponent<AgentLogic>();
         
         playerRef = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine(FOVRoutine());
@@ -62,7 +64,11 @@ public class FieldOfView : MonoBehaviour
                 if (Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                 {
                     canSeePlayer = true;
-                    _agentLogic.UnitSighted();
+                    if (isSentinel)
+                        OnPlayerSpotted?.Invoke(this, EventArgs.Empty);
+                    else
+                        return;   
+                    // _agentLogic.PlayerSpotted();
 
                 }
                 else

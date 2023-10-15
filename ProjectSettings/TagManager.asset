@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - GameManager
+  - InputManager
+  - NavMeshManager
+  - UIManager
+  - CameraManager
   layers:
   - Default
   - TransparentFX
@@ -12,9 +17,9 @@ TagManager:
   - Water
   - UI
   - 
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - Ground
   - 
   - 
   - 

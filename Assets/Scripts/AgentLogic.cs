@@ -1,14 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.SocialPlatforms;
-using static UnityEngine.UI.Image;
 
 public class AgentLogic : MonoBehaviour, IE_Turret
 {
@@ -16,7 +9,7 @@ public class AgentLogic : MonoBehaviour, IE_Turret
     private TurretData DATA;
     
     //FOV
-    private FieldOfView _sentinelLogicReference;
+   // private FieldOfView _sentinelLogicReference;
     
     //List of Player Units in Range
     private List<Transform> _unitsInRange = new List<Transform>();
@@ -33,7 +26,14 @@ public class AgentLogic : MonoBehaviour, IE_Turret
     //ATTACK STUFF
     private Transform _target;
     [SerializeField] private Transform _spawnPoint;
-    private bool isPriorityTarget = false;
+    [SerializeField] private List<GameObject> _instantiatedBullets;
+    private enum IsActiveBullet
+    {
+        YES,
+        NO
+    }
+    private IsActiveBullet _isActiveBullet;
+    //private bool isPriorityTarget = false;
     //States
 
     private enum States
@@ -48,6 +48,7 @@ public class AgentLogic : MonoBehaviour, IE_Turret
    
     private void Awake()
     {
+        _instantiatedBullets = new List<GameObject>();
         DATA = GetComponent<TurretData>();
         _materialReference = _visual.GetComponent<MeshRenderer>();
 
@@ -222,15 +223,36 @@ public class AgentLogic : MonoBehaviour, IE_Turret
     public void Attack(Vector3 projectileSpawnPoint, Vector3 projectileTarget, GameObject projectilePrefab, GameObject projectileSpawnParticle, GameObject projectileHitParticle, float projectileAttackPower)
     {
         GameObject tempProjectile;
-        float speed = 2f;
         tempProjectile = projectilePrefab;
+        float speed = 2f;
+        foreach (GameObject obj in _instantiatedBullets)
+        {
+            if (!obj.activeSelf)
+            {
+                tempProjectile = obj;
+                _isActiveBullet = IsActiveBullet.NO;
+                break;
+            }
+            else
+            {
+                //Make a new bullet and add it to the list
+                //set the bullet as temp
+                _isActiveBullet = IsActiveBullet.YES;
+                break;
+            }
+        }
+        
         Rigidbody rb = tempProjectile.GetComponent<Rigidbody>();
         Vector3 force;
         force = _target.position;
-        Instantiate(tempProjectile, projectileSpawnPoint, transform.rotation, _spawnPoint);
+
+       // Instantiate(tempProjectile, projectileSpawnPoint, transform.rotation, _spawnPoint);
         rb.AddForce(force * speed, ForceMode.Impulse);
         Debug.Log("ProjectileCalled");
     }
+        
+
+    
 
     public void DealDamage()
     {
