@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
 
     //SELECTION HANDLER
-    private enum SelectedObject
+    public enum SelectedObject
     {
         PLAYER_UNIT,
         ENEMY_UNIT,
@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
 
     }
     private SelectedObject SELECTION_CURRENT;
-    private SelectedObject SELECTION_NEXT;
+    public SelectedObject SELECTION_NEXT;
     private Camera _camera;
 
     //Input Events Reference
@@ -66,44 +66,53 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
 
-        //switch (SELECTION_CURRENT)
-        //{
-        //    case SelectedObject.PLAYER_UNIT:
-        //        //UI UPDATE
-        //        return;
-        //    case SelectedObject.ENEMY_UNIT:
-        //        //UI UPDATE
-        //        return;
-        //    case SelectedObject.BUILDING:
-        //        //UI UPDATE
-        //        return;
-        //}
+        switch (SELECTION_CURRENT)
+        {
+            case SelectedObject.PLAYER_UNIT:
+                //UI UPDATE
+                return;
+            case SelectedObject.ENEMY_UNIT:
+                //UI UPDATE
+                return;
+            case SelectedObject.BUILDING:
+                //UI UPDATE
+                return;
+        }
 
     }
     private void LateUpdate()
     {
-        //if (SELECTION_CURRENT != SELECTION_NEXT)
-        //{
-        //    switch (SELECTION_NEXT)
-        //    {
-        //        case SelectedObject.PLAYER_UNIT:
-        //            if (SELECTION_CURRENT == SelectedObject.PLAYER_UNIT) return;
-        //            else if (SELECTION_CURRENT == SelectedObject.ENEMY_UNIT) return;
-        //            else if (SELECTION_CURRENT == SelectedObject.BUILDING) return;
-        //            return;
-        //        case SelectedObject.ENEMY_UNIT:
-        //            if (SELECTION_CURRENT == SelectedObject.PLAYER_UNIT) return;
-        //            else if (SELECTION_CURRENT == SelectedObject.ENEMY_UNIT) return;
-        //            else if (SELECTION_CURRENT == SelectedObject.BUILDING) return;
-        //            return;
-        //        case SelectedObject.BUILDING:
-        //            if (SELECTION_CURRENT == SelectedObject.PLAYER_UNIT) return;
-        //            else if (SELECTION_CURRENT == SelectedObject.ENEMY_UNIT) return;
-        //            else if (SELECTION_CURRENT == SelectedObject.BUILDING) return;
-        //            return;
-        //    }
+        if (SELECTION_CURRENT != SELECTION_NEXT)
+        {
+            switch (SELECTION_NEXT)
+            {
+                case SelectedObject.PLAYER_UNIT:
+                    if (SELECTION_CURRENT == SelectedObject.PLAYER_UNIT)
+                        StateToPlayer_Unit();
+                    else if (SELECTION_CURRENT == SelectedObject.ENEMY_UNIT)
+                        StatetoEnemy_Unit();
+                    else if (SELECTION_CURRENT == SelectedObject.BUILDING)
+                        StateToBuilding_Unit();
+                    return;
+                case SelectedObject.ENEMY_UNIT:
+                    if (SELECTION_CURRENT == SelectedObject.PLAYER_UNIT)
+                        StateToPlayer_Unit();
+                    else if (SELECTION_CURRENT == SelectedObject.ENEMY_UNIT)
+                        StatetoEnemy_Unit();
+                    else if (SELECTION_CURRENT == SelectedObject.BUILDING)
+                        StateToBuilding_Unit();
+                    return;
+                case SelectedObject.BUILDING:
+                    if (SELECTION_CURRENT == SelectedObject.PLAYER_UNIT)
+                        StateToPlayer_Unit();
+                    else if (SELECTION_CURRENT == SelectedObject.ENEMY_UNIT)
+                        StatetoEnemy_Unit();
+                    else if (SELECTION_CURRENT == SelectedObject.BUILDING)
+                        StateToBuilding_Unit();
+                    return;
+            }
 
-        //}
+        }
     }
 
 

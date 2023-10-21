@@ -53,7 +53,7 @@ public class InputManager : MonoBehaviour
             RaycastHit hit;
             
             Debug.DrawLine(_camera.transform.position, touchPosition, Color.blue, 4f);
-            if (!Physics.Raycast(_camera.transform.position, touchPosition, out hit, Mathf.Infinity, ~layerMask, QueryTriggerInteraction.Ignore))
+            if (!Physics.Raycast(_camera.transform.position, touchPosition, out hit, touchRaycastDistance, ~layerMask, QueryTriggerInteraction.Ignore))
             {
                 Debug.Log("Did not Hit");
                 return;

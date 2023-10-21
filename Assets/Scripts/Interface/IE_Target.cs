@@ -4,6 +4,8 @@ using UnityEngine;
 
 public interface IE_Target
 {
+    
+
     void TargetInteract();
 
 }
