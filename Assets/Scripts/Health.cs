@@ -8,6 +8,16 @@ public class Health : MonoBehaviour
     public float health;
     public float maxHealth;
     public float armor;
+
+    private ParticleSystem _hitUIFeedback;
+
+    [SerializeField] bool isPlayer = false;
+
+    private void Awake()
+    {
+        if (isPlayer)
+            _hitUIFeedback = GameObject.FindGameObjectWithTag("_hitUIFeedback").GetComponent<ParticleSystem>();
+    }
     private void Start()
     {
         DATA = GetComponent<TurretData>();
@@ -20,6 +30,9 @@ public class Health : MonoBehaviour
             health -= 1;
         else
             health -= damage - armor;
+
+        if (isPlayer)
+            _hitUIFeedback.Play();
 
         Debug.Log(gameObject.name + health);
 

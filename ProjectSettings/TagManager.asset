@@ -12,11 +12,12 @@ TagManager:
   - Enemy
   - TargetGO
   - DestinationParticleSystem
-  - _canvas
   - _panelPause
-  - _panelPauseExitConfirm
   - _panelPauseReloadConfirm
   - _panelExit
+  - _canvasPause
+  - _panelExitConfirm
+  - _hitUIFeedback
   layers:
   - Default
   - TransparentFX

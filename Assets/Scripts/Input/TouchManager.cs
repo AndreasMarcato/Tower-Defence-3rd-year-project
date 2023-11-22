@@ -15,6 +15,8 @@ public class TouchManager : MonoBehaviour
     private InputAction _touchPressAction;
     private InputAction _touchMoveAction;
     private InputAction _touchTwoFingersTap;
+    private InputAction _touchPause;
+    bool isPaused = false;
 
     private GameObject _selectedObject = null;
     private Vector3 _selectedHitPosition;
@@ -37,6 +39,7 @@ public class TouchManager : MonoBehaviour
         else
         {
             Instance = this;
+            DontDestroyOnLoad(this);
         }
         _camera = Camera.main;
 
@@ -49,13 +52,41 @@ public class TouchManager : MonoBehaviour
         _touchPressAction = _playerInput.actions["TouchPress"];
         _touchMoveAction = _playerInput.actions["TouchMove"];
         _touchTwoFingersTap = _playerInput.actions["RecenterCamera"];
+        _touchPause = _playerInput.actions["Pause"];
+        isPaused = true;
+
     }
     private void OnEnable()
     {
         _playerInput.actions.Enable();
         _touchPressAction.performed += TouchPressed;
         _touchTwoFingersTap.performed += RecenterCamera;
+        _touchPause.performed += PauseGame;
         //_touchPositionAction.performed += TouchPosition;
+    }
+
+    public void PauseGame(InputAction.CallbackContext obj)
+    {
+        isPaused = !isPaused;
+        if (isPaused)
+        {
+            _touchPressAction.performed -= TouchPressed;
+            _touchTwoFingersTap.performed -= RecenterCamera;
+            UIManager.Instance.HandlePause(isPaused);
+        }
+        else
+        {
+            _touchPressAction.performed += TouchPressed;
+            _touchTwoFingersTap.performed += RecenterCamera;
+            UIManager.Instance.HandlePause(isPaused);
+
+        }
+
+    }
+    public void UIPauseCallback()
+    {
+        _touchPressAction.performed += TouchPressed;
+        _touchTwoFingersTap.performed += RecenterCamera;
     }
 
     private void RecenterCamera(InputAction.CallbackContext obj)
@@ -67,6 +98,9 @@ public class TouchManager : MonoBehaviour
     {
         _playerInput.actions.Disable();
         _touchPressAction.performed -= TouchPressed;
+        _touchTwoFingersTap.performed -= RecenterCamera;
+        _touchPause.performed -= PauseGame;
+
         //_touchPositionAction.performed -= TouchPosition;
 
     }

@@ -7,18 +7,17 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMPro.TextMeshProUGUI TMP_SelectionStateTextRef;
     public static UIManager Instance { get; private set; }
 
-    //CANVAS
-    private GameObject _canvas;
-    private GameObject _panelPause;
 
-    //EXIT GAME
-    private GameObject _panelPauseExitConfirm;
+
+    //CANVAS
+    [SerializeField] private GameObject _canvasPause;
+    [SerializeField] private GameObject _panelPause;
+    [SerializeField] private GameObject _panelExitConfirm;
 
 
     //RELOAD SCENE
-    private GameObject _panelPauseReloadConfirm;
+    //[SerializeField] private GameObject _panelPauseReloadConfirm;
 
-    bool isPaused = false;
 
 
     private void Awake()
@@ -30,104 +29,114 @@ public class UIManager : MonoBehaviour
         else
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-
-        //GET ALL CANVAS AND PANEL
-        //CANVAS
-        _canvas = GameObject.FindGameObjectWithTag("_canvas").gameObject;
-        //PAUSE
-        _panelPause = GameObject.FindGameObjectWithTag("_panelPause").gameObject;
-        //EXIT PANEL AND CONFIRM PANEL
-        _panelPauseExitConfirm = GameObject.FindGameObjectWithTag("_panelPauseExitConfirm").gameObject;
-        //RELOAD PANEL AND CONFIRM PANEL
-        _panelPauseReloadConfirm = GameObject.FindGameObjectWithTag("_panelPauseReloadConfirm").gameObject;
-        
-        //_panelPause = GameObject.FindGameObjectWithTag().gameObject;
-        //_panelPause = GameObject.FindGameObjectWithTag().gameObject;
-        //_panelPause = GameObject.FindGameObjectWithTag().gameObject;
-        //_panelPause = GameObject.FindGameObjectWithTag().gameObject;
-        //_panelPause = GameObject.FindGameObjectWithTag().gameObject;
-    }
-    private void OnEnable()
-    {
-        _canvas.SetActive(false);
-        _panelPause.SetActive(false);
-        _panelPauseReloadConfirm.SetActive(false);
-        _panelPauseExitConfirm.SetActive(false);
-    }
-    private void OnDisable()
-    {
         
     }
-
-
-
-    private void Update()
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !isPaused)
+        HandlePause(false);
+    }
+
+    public void HandlePause(bool isPaused)
+    {
+        if (isPaused)
         {
+            _canvasPause.SetActive(true);
+            _panelPause.SetActive(true);
             Time.timeScale = 0;
-            isPaused = true;
         }
-        else if(Input.GetKeyDown(KeyCode.Escape) && isPaused)
+        else if(!isPaused)
         {
+            ClearUI();
+            TouchManager.Instance.UIPauseCallback();
             Time.timeScale = 1;
-            isPaused = false;
+
         }
 
     }
+    public void HandelResume()
+    {
+        ClearUI();
+        Time.timeScale = 1;
+    }
+    public void ClearUI() 
+    {
+        _canvasPause.SetActive(false);
+        _panelPause.SetActive(false);
+        _panelExitConfirm.SetActive(false);
+        
+    }
 
-
-
-
-
-
-
-
-
-
+    #region DYNAMIC UI SELECTION
     public void Update_CurrentSelelectionState(string textToUpdate) 
     {
         TMP_SelectionStateTextRef.text = textToUpdate;
     }
-
+    #endregion
 
 
     #region EXIT GAME MENU HANDLERS
 
     public void ExitGameConfirmPanel()
     {
-        _panelPauseExitConfirm.SetActive(true);
+        _panelExitConfirm.SetActive(true);
     }
     private void ExitGameConfirm(bool yes)
     {
         if (yes)
             Application.Quit();
         else
-            _panelPauseExitConfirm.SetActive(false);
+            _panelExitConfirm.SetActive(false);
+    }
+
+
+    #endregion
+
+    #region EXIT LEVEL MENU HANDLERS
+
+
+    public void ExitLevelConfirm(bool yes)
+    {
+        if (yes)
+            SceneManager.LoadScene(0);
+        else
+            _panelExitConfirm.SetActive(false);
     }
 
 
     #endregion
 
     #region RELOAD SCENE MENU HANDLERS
-
-    private void ReloadGameConfirmPanel()
-    {
-        _panelPauseReloadConfirm.SetActive(true);
-    }
-    private void ReloadGameConfirm(bool yes)
+    public void HandleReload(bool confirm)
     {
         int scene = SceneManager.GetActiveScene().buildIndex;
 
-        if (yes)
+        if (confirm)
             SceneManager.LoadScene(scene);
         else
-            _panelPauseReloadConfirm.SetActive(false);
+            return;
     }
+
+
+
+    //private void ReloadGameConfirmPanel()
+    //{
+    //    _panelPauseReloadConfirm.SetActive(true);
+    //}
+    //private void ReloadGameConfirm(bool yes)
+    //{
+    //    int scene = SceneManager.GetActiveScene().buildIndex;
+
+    //    if (yes)
+    //        SceneManager.LoadScene(scene);
+    //    else
+    //        _panelPauseReloadConfirm.SetActive(false);
+    //}
 
 
     #endregion
 
 
+    
 }
