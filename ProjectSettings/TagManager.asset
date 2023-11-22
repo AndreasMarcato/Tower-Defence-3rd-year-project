@@ -9,6 +9,14 @@ TagManager:
   - NavMeshManager
   - UIManager
   - CameraManager
+  - Enemy
+  - TargetGO
+  - DestinationParticleSystem
+  - _canvas
+  - _panelPause
+  - _panelPauseExitConfirm
+  - _panelPauseReloadConfirm
+  - _panelExit
   layers:
   - Default
   - TransparentFX
@@ -20,8 +28,8 @@ TagManager:
   - Player
   - Enemy
   - Ground
-  - 
-  - 
+  - Building
+  - Collapsible Building
   - 
   - 
   - 

@@ -9,10 +9,8 @@ public class AgentLogic : MonoBehaviour, IE_Turret
     private TurretData DATA;
     
     //FOV
-   // private FieldOfView _sentinelLogicReference;
+    //private FieldOfView _sentinelLogicReference;
     
-    //List of Player Units in Range
-    private List<Transform> _unitsInRange = new List<Transform>();
 
     //Visual reference for animations
     [SerializeField] GameObject _visual;
@@ -25,14 +23,10 @@ public class AgentLogic : MonoBehaviour, IE_Turret
     
     //ATTACK STUFF
     private Transform _target;
+    private float _time = 0;
     [SerializeField] private Transform _spawnPoint;
-    [SerializeField] private List<GameObject> _instantiatedBullets;
-    private enum IsActiveBullet
-    {
-        YES,
-        NO
-    }
-    private IsActiveBullet _isActiveBullet;
+
+    
     //private bool isPriorityTarget = false;
     //States
 
@@ -48,7 +42,6 @@ public class AgentLogic : MonoBehaviour, IE_Turret
    
     private void Awake()
     {
-        _instantiatedBullets = new List<GameObject>();
         DATA = GetComponent<TurretData>();
         _materialReference = _visual.GetComponent<MeshRenderer>();
 
@@ -59,13 +52,24 @@ public class AgentLogic : MonoBehaviour, IE_Turret
         
     }
 
+    
+
     private void Start()
     {
-
+        InvokeRepeating("UpdateTarget", 1f, 0.5f);
     }
 
     private void Update()
     {
+        _time += Time.deltaTime;
+
+        if (_target == null)
+        {
+            NEXT_STATE = States.IDLE;
+        }
+        else
+            NEXT_STATE = States.ALERTED;
+
         switch (CURRENT_STATE)
         {
             case States.IDLE:
@@ -76,14 +80,37 @@ public class AgentLogic : MonoBehaviour, IE_Turret
                 break;
         }
 
-
-        //UnitReset();
-
         Debug.Log(CURRENT_STATE);
 
     }
 
-   
+    void UpdateTarget() 
+    {
+        Debug.Log("Updating Target...");
+        GameObject[] targets = GameObject.FindGameObjectsWithTag("Player");
+        float shortestDistance = Mathf.Infinity;
+        GameObject nearestTarget = null;
+
+
+        foreach (GameObject target in targets)
+        {
+            float distanceToEnemy = Vector3.Distance(transform.position, target.transform.position);
+            if(distanceToEnemy < shortestDistance)
+            {
+                shortestDistance = distanceToEnemy;
+                nearestTarget = target;
+            }
+        }
+
+        if (nearestTarget != null && shortestDistance <= DATA.AttackRange)
+        {
+            _target = nearestTarget.transform;
+            //PLayer in range
+        }
+        else
+            _target = null;
+
+    }
 
     private void LateUpdate()
     {
@@ -138,120 +165,37 @@ public class AgentLogic : MonoBehaviour, IE_Turret
 
     private void SM_ALERTED()
     {
-        //Are there player nits?
-        if (_unitsInRange.Count == 0)
+        //Are there player units?
+        if (_target == null)
         {
             _hinge.LookAt(null, Vector3.zero);
             NEXT_STATE = States.IDLE;
             return;
         }
-
-        //yes, there are player units, calculate which is the closest and if there is a priority one to attack
-        float closestDistance = DATA.AttackRange;
-        float currentDistance;
-
-
-        foreach (Transform T in _unitsInRange)
-        {
-            //if (T.GetComponent<somecomponent>().IsPriorityTarget())
-            //_target = T;
-            //break;
-
-            currentDistance = Vector3.Distance(transform.position, T.position);
-
-            if (closestDistance < currentDistance)
-                return;
-            else
-            {
-                closestDistance = currentDistance;
-                _target = T;
-                Debug.Log(T);
-                Debug.Log(T.name);
-            }
-        }
-        _hinge.LookAt(_target);
-
-        //Attack(Closest Unit)
-        Attack(_hinge.position, _target.position, DATA.ProjectilePrefab, DATA.ProjectileSpawnParticle, DATA.ProjectileHitParticle, DATA.AttackPower);
-
-
-
-    }
-
-    public void UnitSighted(Transform unit)
-    {
-        foreach (Transform T in _unitsInRange)
-        {
-            if (T != unit)
-                _unitsInRange.Add(unit);
-            else
-                return;
-        }
-    }
-    public void UnitReset()
-    {
-        _unitsInRange.Clear();
-    }
-
-    public void UnitSighted()
-    {
-        NEXT_STATE = States.ALERTED;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag != "Player")
-            return;
         else
         {
-            NEXT_STATE = States.ALERTED;
-            _unitsInRange.Add(other.transform);
+
+            _hinge.LookAt(_target,Vector3.up);
+            //Attack(Closest Unit)
+            if (_time >= DATA.AttackSpeed)
+            {
+                Attack(_spawnPoint.position, _target.position, DATA.ProjectilePrefab, DATA.ProjectileSpawnParticle, DATA.ProjectileHitParticle, DATA.AttackPower);
+                _time = 0;
+            }
+
         }
+
+
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag != "Player")
-            return;
 
-        if (_unitsInRange.Contains(other.transform))
-        {
-            _unitsInRange.Remove(other.transform);
-        }
-    }
 
     public void Attack(Vector3 projectileSpawnPoint, Vector3 projectileTarget, GameObject projectilePrefab, GameObject projectileSpawnParticle, GameObject projectileHitParticle, float projectileAttackPower)
     {
-        GameObject tempProjectile;
-        tempProjectile = projectilePrefab;
-        float speed = 2f;
-        foreach (GameObject obj in _instantiatedBullets)
-        {
-            if (!obj.activeSelf)
-            {
-                tempProjectile = obj;
-                _isActiveBullet = IsActiveBullet.NO;
-                break;
-            }
-            else
-            {
-                //Make a new bullet and add it to the list
-                //set the bullet as temp
-                _isActiveBullet = IsActiveBullet.YES;
-                break;
-            }
-        }
-        
-        Rigidbody rb = tempProjectile.GetComponent<Rigidbody>();
-        Vector3 force;
-        force = _target.position;
-
-       // Instantiate(tempProjectile, projectileSpawnPoint, transform.rotation, _spawnPoint);
-        rb.AddForce(force * speed, ForceMode.Impulse);
+        Instantiate(projectilePrefab, projectileSpawnPoint, _hinge.transform.rotation, null);
         Debug.Log("ProjectileCalled");
+            
     }
-        
-
     
 
     public void DealDamage()

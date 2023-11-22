@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57960c5b8334fe44f8498d247538e945, type: 3}
   m_Name: TurretSample
   m_EditorClassIdentifier: 
-  attackRange: 20
-  attackSpeed: 20
+  attackRange: 5
+  attackSpeed: 3
   attackPower: 20
   health: 50
-  projectile: {fileID: 4370938060941117906, guid: b2c5b26937b057a4287851befc12f9ed,
+  projectile: {fileID: 4495693096088216229, guid: 75f986d46cd18e44ea32bedc5887cd01,
     type: 3}
   projectileSpawnParticle: {fileID: 0}
   ProjectileHitParticle: {fileID: 0}

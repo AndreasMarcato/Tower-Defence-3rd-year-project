@@ -38,5 +38,11 @@ public class TurretData : MonoBehaviour
         DieParticle = data.dieParticle;
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, data.attackRange);
+        
+    }
 
 }

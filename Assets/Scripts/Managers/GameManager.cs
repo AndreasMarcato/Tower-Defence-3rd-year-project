@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour
     private Camera _camera;
 
     //Input Events Reference
-    private InputManager inputManager;
     private Vector3 storedVector;
     //event raycast layermask
     private LayerMask GROUND = 9;
@@ -53,7 +52,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        inputManager = InputManager.Instance;
+     
     }
 
     private void InputManager_OnTouchPosition(Vector3 position, GameObject raycastHitGameObject)
