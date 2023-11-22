@@ -2698,7 +2698,7 @@ GameObject:
   - component: {fileID: 1136170566}
   - component: {fileID: 1136170568}
   - component: {fileID: 1136170567}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Particle System
   m_TagString: _hitUIFeedback
   m_Icon: {fileID: 0}
