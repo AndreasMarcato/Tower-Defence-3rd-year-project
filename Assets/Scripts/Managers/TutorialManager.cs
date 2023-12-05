@@ -34,10 +34,13 @@ public class TutorialManager : MonoBehaviour
         {
             case 0:
                 {
-
+                    Tutorial_0_Start();
                 }
                 break;
             case 1:
+                {
+                    Tutorial_1_Start();
+                }
                 break;
             case 2:
                 break;
@@ -54,13 +57,12 @@ public class TutorialManager : MonoBehaviour
 
     private void Tutorial_0_Start()
     {
-        if (_playerInput.actions["TouchPress"]. == true)
+        if (_playerInput.actions["TouchPress"].triggered)
             return;
     }
 
-    private void Tutorial_0_End(InputAction.CallbackContext obj)
+    private void Tutorial_1_Start()
     {
-        _playerInput.actions["TouchPress"].performed += Tutorial_0_End;
 
     }
 }

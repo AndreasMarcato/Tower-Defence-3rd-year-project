@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
@@ -8,6 +9,7 @@ public class TouchManager : MonoBehaviour
 {
 
     private PlayerInput _playerInput;
+    private PlayerAudio _playerAudio;
     private NavMeshAgent _playerAgent;
 
 
@@ -45,22 +47,32 @@ public class TouchManager : MonoBehaviour
 
 
         _playerInput = GetComponent<PlayerInput>();
-        _playerAgent = GameObject.FindGameObjectWithTag("Player").GetComponent<NavMeshAgent>();
-        _cameraManager = GameObject.FindGameObjectWithTag("CameraManager").GetComponent<Transform>();
-        _destinationParticleSystem = GameObject.FindGameObjectWithTag("DestinationParticleSystem").transform;
+        
         _touchPositionAction = _playerInput.actions["TouchPosition"];
         _touchPressAction = _playerInput.actions["TouchPress"];
         _touchMoveAction = _playerInput.actions["TouchMove"];
-        _touchTwoFingersTap = _playerInput.actions["RecenterCamera"];
+        //_touchTwoFingersTap = _playerInput.actions["RecenterCamera"];
         _touchPause = _playerInput.actions["Pause"];
-        isPaused = true;
 
+        
+
+
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        
     }
     private void OnEnable()
     {
+        _playerAudio = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAudio>();
+        _playerAgent = GameObject.FindGameObjectWithTag("Player").GetComponent<NavMeshAgent>();
+        _cameraManager = GameObject.FindGameObjectWithTag("CameraManager").GetComponent<Transform>();
+        _destinationParticleSystem = GameObject.FindGameObjectWithTag("DestinationParticleSystem").transform;
+
         _playerInput.actions.Enable();
         _touchPressAction.performed += TouchPressed;
-        _touchTwoFingersTap.performed += RecenterCamera;
+        //_touchTwoFingersTap.performed += RecenterCamera;
         _touchPause.performed += PauseGame;
         //_touchPositionAction.performed += TouchPosition;
     }
@@ -86,7 +98,7 @@ public class TouchManager : MonoBehaviour
     public void UIPauseCallback()
     {
         _touchPressAction.performed += TouchPressed;
-        _touchTwoFingersTap.performed += RecenterCamera;
+        //_touchTwoFingersTap.performed += RecenterCamera;
     }
 
     private void RecenterCamera(InputAction.CallbackContext obj)
@@ -98,7 +110,7 @@ public class TouchManager : MonoBehaviour
     {
         _playerInput.actions.Disable();
         _touchPressAction.performed -= TouchPressed;
-        _touchTwoFingersTap.performed -= RecenterCamera;
+        //_touchTwoFingersTap.performed -= RecenterCamera;
         _touchPause.performed -= PauseGame;
 
         //_touchPositionAction.performed -= TouchPosition;
@@ -138,6 +150,7 @@ public class TouchManager : MonoBehaviour
             }
             else
             {
+                _playerAudio.PlayerMoveAudio();
                 _destinationParticleSystem.position = hit.point;
                 _destinationParticleSystem.GetComponent<ParticleSystem>().Play();
                 _playerAgent.SetDestination(hit.point);
@@ -158,11 +171,7 @@ public class TouchManager : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+   
 
     
 

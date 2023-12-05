@@ -4,18 +4,15 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Enemy
+  - DestinationParticleSystem
+  - NavMeshManager
+  - CameraManager
+  - UIManager
   - GameManager
   - InputManager
-  - NavMeshManager
-  - UIManager
-  - CameraManager
-  - Enemy
-  - TargetGO
-  - DestinationParticleSystem
-  - _panelPause
-  - _panelPauseReloadConfirm
-  - _panelExit
   - _canvasPause
+  - _panelPause
   - _panelExitConfirm
   - _hitUIFeedback
   layers:
@@ -25,12 +22,12 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Ground
   - Player
   - Enemy
-  - Ground
-  - Building
-  - Collapsible Building
+  - 
+  - 
+  - 
   - 
   - 
   - 

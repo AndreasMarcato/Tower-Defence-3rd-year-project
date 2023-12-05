@@ -61,7 +61,12 @@ PrefabInstance:
     - target: {fileID: 2338968761971999653, guid: 658a85f024ff32a4c8750db3a37f19ef,
         type: 3}
       propertyPath: m_Name
-      value: _Building_Long Variant
+      value: Building_Silo
+      objectReference: {fileID: 0}
+    - target: {fileID: 3492071633353771312, guid: 658a85f024ff32a4c8750db3a37f19ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

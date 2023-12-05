@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace TMPro.Examples
 {
-    
+
     public class CameraController : MonoBehaviour
     {
         public enum CameraModes { Follow, Isometric, Free }
@@ -195,98 +195,99 @@ namespace TMPro.Examples
 
                 }
 
-                // Check for left mouse button to select a new CameraTarget or to reset Follow position
-                if (Input.GetMouseButton(0))
+                //// Check for left mouse button to select a new CameraTarget or to reset Follow position
+                //if (Input.GetMouseButton(0))
+                //{
+                //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                //    RaycastHit hit;
+
+                //    if (Physics.Raycast(ray, out hit, 300, 1 << 10 | 1 << 11 | 1 << 12 | 1 << 14))
+                //    {
+                //        if (hit.transform == CameraTarget)
+                //        {
+                //            // Reset Follow Position
+                //            OrbitalAngle = 0;
+                //        }
+                //        else
+                //        {
+                //            CameraTarget = hit.transform;
+                //            OrbitalAngle = 0;
+                //            MovementSmoothing = previousSmoothing;
+                //        }
+
+                //    }
+                //}
+
+
+                //    if (Input.GetMouseButton(2))
+                //    {
+                //        if (dummyTarget == null)
+                //        {
+                //            // We need a Dummy Target to anchor the Camera
+                //            dummyTarget = new GameObject("Camera Target").transform;
+                //            dummyTarget.position = CameraTarget.position;
+                //            dummyTarget.rotation = CameraTarget.rotation;
+                //            CameraTarget = dummyTarget;
+                //            previousSmoothing = MovementSmoothing;
+                //            MovementSmoothing = false;
+                //        }
+                //        else if (dummyTarget != CameraTarget)
+                //        {
+                //            // Move DummyTarget to CameraTarget
+                //            dummyTarget.position = CameraTarget.position;
+                //            dummyTarget.rotation = CameraTarget.rotation;
+                //            CameraTarget = dummyTarget;
+                //            previousSmoothing = MovementSmoothing;
+                //            MovementSmoothing = false;
+                //        }
+
+
+                //        mouseY = Input.GetAxis("Mouse Y");
+                //        mouseX = Input.GetAxis("Mouse X");
+
+                //        moveVector = cameraTransform.TransformDirection(mouseX, mouseY, 0);
+
+                //        dummyTarget.Translate(-moveVector, Space.World);
+
+                //    }
+
+                //}
+
+                // Check Pinching to Zoom in - out on Mobile device
+                if (touchCount == 2)
                 {
-                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    RaycastHit hit;
+                    Touch touch0 = Input.GetTouch(0);
+                    Touch touch1 = Input.GetTouch(1);
 
-                    if (Physics.Raycast(ray, out hit, 300, 1 << 10 | 1 << 11 | 1 << 12 | 1 << 14))
+                    Vector2 touch0PrevPos = touch0.position - touch0.deltaPosition;
+                    Vector2 touch1PrevPos = touch1.position - touch1.deltaPosition;
+
+                    float prevTouchDelta = (touch0PrevPos - touch1PrevPos).magnitude;
+                    float touchDelta = (touch0.position - touch1.position).magnitude;
+
+                    float zoomDelta = prevTouchDelta - touchDelta;
+
+                    if (zoomDelta > 0.01f || zoomDelta < -0.01f)
                     {
-                        if (hit.transform == CameraTarget)
-                        {
-                            // Reset Follow Position
-                            OrbitalAngle = 0;
-                        }
-                        else
-                        {
-                            CameraTarget = hit.transform;
-                            OrbitalAngle = 0;
-                            MovementSmoothing = previousSmoothing;
-                        }
-
+                        FollowDistance += zoomDelta * 0.25f;
+                        // Limit FollowDistance between min & max values.
+                        FollowDistance = Mathf.Clamp(FollowDistance, MinFollowDistance, MaxFollowDistance);
                     }
+
+
                 }
 
-
-                if (Input.GetMouseButton(2))
+                // Check MouseWheel to Zoom in-out
+                if (mouseWheel < -0.01f || mouseWheel > 0.01f)
                 {
-                    if (dummyTarget == null)
-                    {
-                        // We need a Dummy Target to anchor the Camera
-                        dummyTarget = new GameObject("Camera Target").transform;
-                        dummyTarget.position = CameraTarget.position;
-                        dummyTarget.rotation = CameraTarget.rotation;
-                        CameraTarget = dummyTarget;
-                        previousSmoothing = MovementSmoothing;
-                        MovementSmoothing = false;
-                    }
-                    else if (dummyTarget != CameraTarget)
-                    {
-                        // Move DummyTarget to CameraTarget
-                        dummyTarget.position = CameraTarget.position;
-                        dummyTarget.rotation = CameraTarget.rotation;
-                        CameraTarget = dummyTarget;
-                        previousSmoothing = MovementSmoothing;
-                        MovementSmoothing = false;
-                    }
 
-
-                    mouseY = Input.GetAxis("Mouse Y");
-                    mouseX = Input.GetAxis("Mouse X");
-
-                    moveVector = cameraTransform.TransformDirection(mouseX, mouseY, 0);
-
-                    dummyTarget.Translate(-moveVector, Space.World);
-
-                }
-
-            }
-
-            // Check Pinching to Zoom in - out on Mobile device
-            if (touchCount == 2)
-            {
-                Touch touch0 = Input.GetTouch(0);
-                Touch touch1 = Input.GetTouch(1);
-
-                Vector2 touch0PrevPos = touch0.position - touch0.deltaPosition;
-                Vector2 touch1PrevPos = touch1.position - touch1.deltaPosition;
-
-                float prevTouchDelta = (touch0PrevPos - touch1PrevPos).magnitude;
-                float touchDelta = (touch0.position - touch1.position).magnitude;
-
-                float zoomDelta = prevTouchDelta - touchDelta;
-
-                if (zoomDelta > 0.01f || zoomDelta < -0.01f)
-                {
-                    FollowDistance += zoomDelta * 0.25f;
+                    FollowDistance -= mouseWheel * 5.0f;
                     // Limit FollowDistance between min & max values.
                     FollowDistance = Mathf.Clamp(FollowDistance, MinFollowDistance, MaxFollowDistance);
                 }
 
 
             }
-
-            // Check MouseWheel to Zoom in-out
-            if (mouseWheel < -0.01f || mouseWheel > 0.01f)
-            {
-
-                FollowDistance -= mouseWheel * 5.0f;
-                // Limit FollowDistance between min & max values.
-                FollowDistance = Mathf.Clamp(FollowDistance, MinFollowDistance, MaxFollowDistance);
-            }
-
-
         }
     }
 }

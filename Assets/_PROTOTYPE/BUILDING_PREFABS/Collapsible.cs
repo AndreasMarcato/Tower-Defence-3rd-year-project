@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Collapsible : MonoBehaviour
 {
+    private AudioSource _audioSource;
     [SerializeField] private GameObject _buildingCanvasButton;
     private Animator _animator;
     [SerializeField] private bool isDestroyable = false;
@@ -11,6 +12,7 @@ public class Collapsible : MonoBehaviour
 
     private void Awake()
     {
+        _audioSource = GetComponent<AudioSource>();
         _buildingCanvasButton.SetActive(false);
         _animator = GetComponent<Animator>();
     }
@@ -33,6 +35,7 @@ public class Collapsible : MonoBehaviour
     {
         if (isDestroyable)
         {
+            _audioSource.Play();
             _buildingDestroyParticle.transform.position = this.transform.position;
             _buildingDestroyParticle.Play();
             _animator.SetTrigger("Destroy");

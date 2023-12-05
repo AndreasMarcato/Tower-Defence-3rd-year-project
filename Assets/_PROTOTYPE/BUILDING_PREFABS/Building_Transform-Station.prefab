@@ -137,6 +137,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Building_Transform-Station
       objectReference: {fileID: 0}
+    - target: {fileID: 3492071633353771312, guid: 658a85f024ff32a4c8750db3a37f19ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 7550895424785653045, guid: 658a85f024ff32a4c8750db3a37f19ef, type: 3}
