@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,6 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _canvasPause;
     [SerializeField] private GameObject _panelPause;
     [SerializeField] private GameObject _panelExitConfirm;
+    [SerializeField] private TextMeshProUGUI _currencyUI;
 
 
     //RELOAD SCENE
@@ -36,6 +38,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         HandlePause(false);
+        _currencyUI.text = "0";
     }
 
     public void HandlePause(bool isPaused)
@@ -67,6 +70,15 @@ public class UIManager : MonoBehaviour
         _panelExitConfirm.SetActive(false);
         
     }
+
+    #region CURRENCY REGION
+    public void UpdateCurrencyText(int currencyAmount)
+    {
+        _currencyUI.text = currencyAmount.ToString();
+    }
+    #endregion
+
+
 
     #region DYNAMIC UI SELECTION
     public void Update_CurrentSelelectionState(string textToUpdate) 

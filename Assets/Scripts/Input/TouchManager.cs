@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -31,6 +32,8 @@ public class TouchManager : MonoBehaviour
     private Transform _destinationParticleSystem;
 
     public static TouchManager Instance { get; private set; }
+
+
 
     private void Awake()
     {
@@ -133,20 +136,27 @@ public class TouchManager : MonoBehaviour
         if (Physics.Raycast(ray, out hit, touchRaycastDistance, layerMask, QueryTriggerInteraction.Ignore))
         {
             Debug.DrawLine(_camera.transform.position, hit.point, Color.blue, 1f);
-            
+
             if (hit.collider.TryGetComponent<Target>(out Target interactable))
             {
                 _selectedObject = hit.transform.gameObject;
-                
+
                 interactable.TargetInteract();
 
                 //If the tap found the Player, do this:
                 if (interactable.currentTarget.ToString() == "PLAYER")
                 {
                     //StartCoroutine(ChangeSubscription());
-                    
-
                 }
+            }
+            else if (hit.collider.TryGetComponent<PickUpLogic>(out PickUpLogic pickUp))
+            {
+                _selectedObject = hit.transform.gameObject;
+                if (pickUp.CURRENT_TYPE == PickUpLogic.PICKUP_TYPE.HEAL)
+                    pickUp.HealPlayer();
+                else if(pickUp.CURRENT_TYPE == PickUpLogic.PICKUP_TYPE.CURRENCY)
+                    pickUp.AddCurrency();
+                return;
             }
             else
             {

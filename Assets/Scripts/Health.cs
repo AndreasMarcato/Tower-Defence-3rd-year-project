@@ -26,6 +26,7 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        
         if (damage < armor)
             health -= 1;
         else
@@ -38,6 +39,13 @@ public class Health : MonoBehaviour
 
         if (health <= 0)
             Destroy(gameObject);
+    }
+    public void HealPlayer(float healAmount)
+    {
+        health += healAmount;
+        Debug.Log(gameObject.name + health);
+        return;
+
     }
 
 }
