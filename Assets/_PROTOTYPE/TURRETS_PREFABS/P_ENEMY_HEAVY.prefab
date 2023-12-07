@@ -623,6 +623,12 @@ MonoBehaviour:
   - {fileID: 2100000, guid: c852af001dae0064e9acaa832f1dadb7, type: 2}
   - {fileID: 2100000, guid: 5a26de236ce89e94b963be8fa2b7ade6, type: 2}
   _spawnPoint: {fileID: 6675282698519641514}
+  isLootTurret: 0
+  _lootGameObject: {fileID: 321402725894746102, guid: ae8f58e43993552458c5ba81578f2f04,
+    type: 3}
+  isCurrencyTurret: 1
+  _lootCurrencyGameObject: {fileID: 3137763013384221852, guid: 2c76194229192f94eb220f87402d36bf,
+    type: 3}
 --- !u!65 &2417711543530223607
 BoxCollider:
   m_ObjectHideFlags: 0

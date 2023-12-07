@@ -30,15 +30,20 @@ public class Health : MonoBehaviour
         if (damage < armor)
             health -= 1;
         else
-            health -= damage - armor;
+            health -= (damage - armor);
 
         if (isPlayer)
             _hitUIFeedback.Play();
+            
 
         Debug.Log(gameObject.name + health);
 
         if (health <= 0)
+        {
+            if(!isPlayer)
+                GetComponent<AgentLogic>().HandleLoot();
             Destroy(gameObject);
+        }
     }
     public void HealPlayer(float healAmount)
     {

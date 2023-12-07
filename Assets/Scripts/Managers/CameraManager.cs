@@ -38,7 +38,7 @@ public class CameraManager : MonoBehaviour
     private void Start()
     {
         panLimit = cameraBounds.GetComponent<BoxCollider>().bounds.extents;
-        targetRotation = transform.rotation;
+        targetRotation = transform.localRotation;
     }
 
 

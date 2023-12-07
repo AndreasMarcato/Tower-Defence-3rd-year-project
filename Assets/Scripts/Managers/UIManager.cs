@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _panelPause;
     [SerializeField] private GameObject _panelExitConfirm;
     [SerializeField] private TextMeshProUGUI _currencyUI;
+    int _currentCurrency;
 
 
     //RELOAD SCENE
@@ -38,7 +39,8 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         HandlePause(false);
-        _currencyUI.text = "0";
+        _currentCurrency = 0;
+        _currencyUI.text = "Currency: " + _currentCurrency.ToString();
     }
 
     public void HandlePause(bool isPaused)
@@ -74,7 +76,8 @@ public class UIManager : MonoBehaviour
     #region CURRENCY REGION
     public void UpdateCurrencyText(int currencyAmount)
     {
-        _currencyUI.text = currencyAmount.ToString();
+        _currentCurrency += currencyAmount;
+        _currencyUI.text = "Currency: " + _currentCurrency.ToString();
     }
     #endregion
 

@@ -26,10 +26,16 @@ public class AgentLogic : MonoBehaviour, IE_Turret
     private float _time = 0;
     [SerializeField] private Transform _spawnPoint;
 
-    
+
+    //LOOT
+    [Header("Loot")]
+    [SerializeField] private bool isLootTurret = false;
+    [SerializeField] private GameObject _lootGameObject;
+    [SerializeField] private bool isCurrencyTurret = true;
+    [SerializeField] private GameObject _lootCurrencyGameObject;
+
     //private bool isPriorityTarget = false;
     //States
-
     private enum States
     {
         IDLE,
@@ -144,7 +150,6 @@ public class AgentLogic : MonoBehaviour, IE_Turret
         _materialReference.material = materialStates[1];
         CURRENT_STATE = States.ALERTED;
     }
-    
 
     #endregion
 
@@ -152,7 +157,7 @@ public class AgentLogic : MonoBehaviour, IE_Turret
     #region State Machines
     private void SM_IDLE()
     {
-        transform.eulerAngles = Vector3.zero;
+        //transform.eulerAngles = Vector3.zero;
        // StartCoroutine(SM_IDLE_UPDATE());
     }
     protected IEnumerator SM_IDLE_UPDATE()
@@ -192,7 +197,9 @@ public class AgentLogic : MonoBehaviour, IE_Turret
 
     public void Attack(Vector3 projectileSpawnPoint, Vector3 projectileTarget, GameObject projectilePrefab, GameObject projectileSpawnParticle, GameObject projectileHitParticle, float projectileAttackPower)
     {
-        Instantiate(projectilePrefab, projectileSpawnPoint, _hinge.transform.rotation, null);
+        Quaternion newQuaternion = new Quaternion();
+        newQuaternion.Set(0, _hinge.transform.rotation.y, 0, 1);
+        Instantiate(projectilePrefab, projectileSpawnPoint, newQuaternion, null);
         Debug.Log("ProjectileCalled");
             
     }
@@ -209,6 +216,26 @@ public class AgentLogic : MonoBehaviour, IE_Turret
     }
 
     #endregion
+
+
+    public void HandleLoot()
+    {
+        if (isLootTurret)
+            DropLoot();
+        if (isCurrencyTurret)
+            DropCurrency();
+    }
+
+    private void DropLoot()
+    {
+        Instantiate(_lootCurrencyGameObject, _hinge.position, Quaternion.identity, null);
+
+    }
+    private void DropCurrency()
+    {
+        Instantiate(_lootCurrencyGameObject, _hinge.position, Quaternion.identity, null);
+
+    }
 
 
 }

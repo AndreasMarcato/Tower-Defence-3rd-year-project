@@ -18,7 +18,7 @@ public class BulletLogic : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.AddForce(transform.forward * force, ForceMode.Impulse);
+        rb.AddRelativeForce(0, 0, force, ForceMode.Impulse);
     }
     private void OnCollisionEnter(Collision collision)
     {

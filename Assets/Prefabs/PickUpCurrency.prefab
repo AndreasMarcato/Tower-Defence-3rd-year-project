@@ -128,7 +128,7 @@ PrefabInstance:
     - target: {fileID: 5899181485857614252, guid: ae8f58e43993552458c5ba81578f2f04,
         type: 3}
       propertyPath: healAmount
-      value: 33
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5899181485857614252, guid: ae8f58e43993552458c5ba81578f2f04,
         type: 3}
