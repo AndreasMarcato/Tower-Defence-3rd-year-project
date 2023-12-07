@@ -88,17 +88,57 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 821866411635852541, guid: 5437616d4f379bd4c9975b9435411edb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1915866643625509400, guid: 5437616d4f379bd4c9975b9435411edb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044545114244541606, guid: 5437616d4f379bd4c9975b9435411edb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2154891225579323323, guid: 5437616d4f379bd4c9975b9435411edb,
         type: 3}
       propertyPath: data
       value: 
       objectReference: {fileID: 11400000, guid: 868c5e25720346c47bf52b4d87e1e150,
         type: 2}
+    - target: {fileID: 2417711543530223607, guid: 5437616d4f379bd4c9975b9435411edb,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 4.4759984
+      objectReference: {fileID: 0}
+    - target: {fileID: 2417711543530223607, guid: 5437616d4f379bd4c9975b9435411edb,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 4.475998
+      objectReference: {fileID: 0}
+    - target: {fileID: 2417711543530223607, guid: 5437616d4f379bd4c9975b9435411edb,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 4.4759984
+      objectReference: {fileID: 0}
+    - target: {fileID: 3157705311486586896, guid: 5437616d4f379bd4c9975b9435411edb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3960509911955877582, guid: 5437616d4f379bd4c9975b9435411edb,
         type: 3}
       propertyPath: _visual
       value: 
       objectReference: {fileID: 5866940233154139368}
+    - target: {fileID: 5065389718436117135, guid: 5437616d4f379bd4c9975b9435411edb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6675282698519641514, guid: 5437616d4f379bd4c9975b9435411edb,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -108,6 +148,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6816258747542195538, guid: 5437616d4f379bd4c9975b9435411edb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6849506888050365589, guid: 5437616d4f379bd4c9975b9435411edb,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8157768611518711971, guid: 5437616d4f379bd4c9975b9435411edb,
         type: 3}
@@ -163,6 +213,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: P_ENEMY_LIGHT
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601045056090794343, guid: 5437616d4f379bd4c9975b9435411edb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

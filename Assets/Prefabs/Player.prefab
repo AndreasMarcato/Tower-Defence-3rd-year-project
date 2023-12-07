@@ -83,7 +83,7 @@ MonoBehaviour:
   _spawnPoint: {fileID: 5425946432861123961}
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!114 &6864956830436926168
 MonoBehaviour:
   m_ObjectHideFlags: 0

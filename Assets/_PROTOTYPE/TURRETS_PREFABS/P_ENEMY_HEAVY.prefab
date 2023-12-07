@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2061577970993973097}
   - component: {fileID: 8342282366482941060}
   - component: {fileID: 8753771754311942807}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2803662602839240805}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -197,7 +197,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7315567097509169467}
   - component: {fileID: 6942544864914256948}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -321,7 +321,7 @@ GameObject:
   - component: {fileID: 145775115993267538}
   - component: {fileID: 3266908278073480015}
   - component: {fileID: 675269481048248919}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -396,7 +396,7 @@ GameObject:
   - component: {fileID: 7107872160830811323}
   - component: {fileID: 3381966101755733904}
   - component: {fileID: 763296487946527553}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -471,7 +471,7 @@ GameObject:
   - component: {fileID: 6849506888050365589}
   - component: {fileID: 7740549452956547285}
   - component: {fileID: 8089470746313363881}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -581,7 +581,6 @@ GameObject:
   - component: {fileID: 2154891225579323323}
   - component: {fileID: 596510846974585370}
   - component: {fileID: 5808350167499797052}
-  - component: {fileID: 8018250075641842464}
   m_Layer: 8
   m_Name: P_ENEMY_HEAVY
   m_TagString: Enemy
@@ -700,22 +699,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetGO: {fileID: 0}
---- !u!114 &8018250075641842464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8488829408204220066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06c78af948052824d93c22c84c08dd65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  samplePoints: []
-  maxDistBetweenPoints: 0
-  seenCount: 0
-  seenBy: []
 --- !u!1 &8601045056090794343
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,7 +708,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8112641386512996788}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
