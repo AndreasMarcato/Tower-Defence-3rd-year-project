@@ -16,6 +16,7 @@ TagManager:
   - _panelExitConfirm
   - _hitUIFeedback
   - PickUp
+  - Ground
   layers:
   - Default
   - TransparentFX

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57960c5b8334fe44f8498d247538e945, type: 3}
   m_Name: E_Long_Range
   m_EditorClassIdentifier: 
-  attackRange: 8.7
+  attackRange: 19.46
   attackSpeed: 2
   attackPower: 5
   health: 50

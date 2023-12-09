@@ -12,8 +12,8 @@ public class HealthBarVisual : MonoBehaviour
     private void Update()
     {
        
+        transform.forward = Camera.main.transform.forward;
         float valueHP = Mathf.InverseLerp(healthGO.health, healthGO.maxHealth, currentProgress);
-
         fillValue.value = valueHP;
     
 

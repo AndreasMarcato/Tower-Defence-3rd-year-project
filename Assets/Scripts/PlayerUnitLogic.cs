@@ -111,7 +111,7 @@ public class PlayerUnitLogic : MonoBehaviour
     #region State Machines
     private void SM_IDLE()
     {
-        _hinge.eulerAngles = Vector3.zero;
+        _hinge.eulerAngles = transform.eulerAngles;
         // StartCoroutine(SM_IDLE_UPDATE());
     }
     protected IEnumerator SM_IDLE_UPDATE()
@@ -127,7 +127,6 @@ public class PlayerUnitLogic : MonoBehaviour
         //Are there enemy units?
         if (_target == null)
         {
-            _hinge.LookAt(null, Vector3.zero);
             NEXT_STATE = States.IDLE;
             return;
         }
@@ -138,6 +137,9 @@ public class PlayerUnitLogic : MonoBehaviour
             //Attack(Closest Unit)
             if (_time >= DATA.AttackSpeed)
             {
+                Shoot();
+                _time = 0;
+                return;
                 Attack(_spawnPoint.position, _target.position, DATA.ProjectilePrefab, DATA.ProjectileSpawnParticle, DATA.ProjectileHitParticle, DATA.AttackPower);
                 _time = 0;
             }
@@ -148,6 +150,14 @@ public class PlayerUnitLogic : MonoBehaviour
     }
     #endregion
 
+    private void Shoot()
+    {
+        GameObject projectileGO = Instantiate(DATA.ProjectilePrefab, _spawnPoint.position, _hinge.localRotation);
+        BulletLogic bullet = projectileGO.GetComponent<BulletLogic>();
+
+        if (bullet != null)
+            bullet.ProjectileTarget(_target);
+    }
     public void Attack(Vector3 projectileSpawnPoint, Vector3 projectileTarget, GameObject projectilePrefab, GameObject projectileSpawnParticle, GameObject projectileHitParticle, float projectileAttackPower)
     {
         Instantiate(projectilePrefab, projectileSpawnPoint, _hinge.transform.rotation, null);

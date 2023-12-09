@@ -45,6 +45,7 @@ public class Collapsible : MonoBehaviour
     }
     private void Update()
     {
-        _buildingCanvasButton.transform.LookAt(Camera.main.transform);
+        _buildingCanvasButton.transform.forward = Camera.main.transform.forward;
+
     }
 }

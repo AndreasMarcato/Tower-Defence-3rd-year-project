@@ -42,6 +42,8 @@ public class Health : MonoBehaviour
         {
             if(!isPlayer)
                 GetComponent<AgentLogic>().HandleLoot();
+            else
+                StartCoroutine(UIManager.Instance.StartDefeatHandle());
             Destroy(gameObject);
         }
     }

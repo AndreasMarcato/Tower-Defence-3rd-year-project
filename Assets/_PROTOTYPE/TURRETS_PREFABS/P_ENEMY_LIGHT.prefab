@@ -112,17 +112,22 @@ PrefabInstance:
     - target: {fileID: 2417711543530223607, guid: 5437616d4f379bd4c9975b9435411edb,
         type: 3}
       propertyPath: m_Size.x
-      value: 4.4759984
+      value: 2.5309997
       objectReference: {fileID: 0}
     - target: {fileID: 2417711543530223607, guid: 5437616d4f379bd4c9975b9435411edb,
         type: 3}
       propertyPath: m_Size.y
-      value: 4.475998
+      value: 2.5309992
       objectReference: {fileID: 0}
     - target: {fileID: 2417711543530223607, guid: 5437616d4f379bd4c9975b9435411edb,
         type: 3}
       propertyPath: m_Size.z
-      value: 4.4759984
+      value: 2.5309997
+      objectReference: {fileID: 0}
+    - target: {fileID: 2417711543530223607, guid: 5437616d4f379bd4c9975b9435411edb,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 1.11
       objectReference: {fileID: 0}
     - target: {fileID: 3157705311486586896, guid: 5437616d4f379bd4c9975b9435411edb,
         type: 3}
@@ -162,17 +167,17 @@ PrefabInstance:
     - target: {fileID: 8157768611518711971, guid: 5437616d4f379bd4c9975b9435411edb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -23.032137
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8157768611518711971, guid: 5437616d4f379bd4c9975b9435411edb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 80.628815
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8157768611518711971, guid: 5437616d4f379bd4c9975b9435411edb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.840261
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8157768611518711971, guid: 5437616d4f379bd4c9975b9435411edb,
         type: 3}
@@ -218,6 +223,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8922544289542786776, guid: 5437616d4f379bd4c9975b9435411edb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.202
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

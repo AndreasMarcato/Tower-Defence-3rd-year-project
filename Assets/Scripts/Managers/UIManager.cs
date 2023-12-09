@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -16,6 +17,17 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _panelExitConfirm;
     [SerializeField] private TextMeshProUGUI _currencyUI;
     int _currentCurrency;
+
+
+    //WIN LOSE CANVASES
+    [SerializeField] private GameObject _canvasWinAndDefeat;
+    [SerializeField] private GameObject _panelWin;
+    [SerializeField] private GameObject _star1;
+    [SerializeField] private GameObject _star2;
+    [SerializeField] private GameObject _star3;
+
+    [SerializeField] private GameObject _panelLose;
+    [SerializeField] private GameObject _panelLoseExitConfirm;
 
 
     //RELOAD SCENE
@@ -153,5 +165,35 @@ public class UIManager : MonoBehaviour
     #endregion
 
 
-    
+    public IEnumerator StartWinHandle()
+    {
+        _canvasWinAndDefeat.SetActive(true);
+        _panelWin.SetActive(true);
+        yield return new WaitForSeconds(1);
+        _star1.SetActive(true);
+        yield return new WaitForSeconds(1);
+        _star2.SetActive(true);
+        yield return new WaitForSeconds(1);
+        _star3.SetActive(true);
+
+        GameManager.Instance.VictoryHandle();
+
+    }
+
+    public IEnumerator StartDefeatHandle()
+    {
+        _canvasWinAndDefeat.SetActive(true);
+        _panelLose.SetActive(true);
+        yield return new WaitForSeconds(1);
+
+    }
+
+    public void DefeatExitPanel(bool yes)
+    {
+        if(!yes)
+            _panelLoseExitConfirm.SetActive(false);
+        else
+            _panelLoseExitConfirm.SetActive(true);
+    }
+
 }

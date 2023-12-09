@@ -157,8 +157,10 @@ public class AgentLogic : MonoBehaviour, IE_Turret
     #region State Machines
     private void SM_IDLE()
     {
+        _hinge.Rotate(0, 0 * Time.deltaTime, 0);
+
         //transform.eulerAngles = Vector3.zero;
-       // StartCoroutine(SM_IDLE_UPDATE());
+        // StartCoroutine(SM_IDLE_UPDATE());
     }
     protected IEnumerator SM_IDLE_UPDATE()
     {
@@ -173,7 +175,6 @@ public class AgentLogic : MonoBehaviour, IE_Turret
         //Are there player units?
         if (_target == null)
         {
-            _hinge.LookAt(null, Vector3.zero);
             NEXT_STATE = States.IDLE;
             return;
         }
@@ -184,7 +185,10 @@ public class AgentLogic : MonoBehaviour, IE_Turret
             //Attack(Closest Unit)
             if (_time >= DATA.AttackSpeed)
             {
-                Attack(_spawnPoint.position, _target.position, DATA.ProjectilePrefab, DATA.ProjectileSpawnParticle, DATA.ProjectileHitParticle, DATA.AttackPower);
+                Shoot();
+                _time = 0;
+                return;
+                Attack(_spawnPoint.gameObject, _target.position, DATA.ProjectilePrefab, DATA.ProjectileSpawnParticle, DATA.ProjectileHitParticle, DATA.AttackPower);
                 _time = 0;
             }
 
@@ -193,17 +197,46 @@ public class AgentLogic : MonoBehaviour, IE_Turret
 
     }
 
-
-
-    public void Attack(Vector3 projectileSpawnPoint, Vector3 projectileTarget, GameObject projectilePrefab, GameObject projectileSpawnParticle, GameObject projectileHitParticle, float projectileAttackPower)
+    private void Shoot()
     {
-        Quaternion newQuaternion = new Quaternion();
-        newQuaternion.Set(0, _hinge.transform.rotation.y, 0, 1);
-        Instantiate(projectilePrefab, projectileSpawnPoint, newQuaternion, null);
-        Debug.Log("ProjectileCalled");
-            
+        GameObject projectileGO = Instantiate(DATA.ProjectilePrefab, _spawnPoint.position, _hinge.localRotation);
+        BulletLogic bullet = projectileGO.GetComponent<BulletLogic>();
+
+        if (bullet != null)
+            bullet.ProjectileTarget(_target);
     }
-    
+
+    public void Attack(GameObject projectileSpawnPoint, Vector3 projectileTarget, GameObject projectilePrefab, GameObject projectileSpawnParticle, GameObject projectileHitParticle, float projectileAttackPower)
+    {
+        //Quaternion newQuaternion = new Quaternion();
+        //newQuaternion.Set(0, _hinge.rotation.y, 0, 1);
+        //GameObject go = Instantiate(projectilePrefab, _spawnPoint);
+        //go.transform.forward = _hinge.forward;
+        //Debug.Log("ProjectileCalled");
+
+
+        // Store the returned clone
+        GameObject newBullet = Instantiate(projectilePrefab, projectileSpawnPoint.transform.position, Quaternion.identity, null);
+        StartCoroutine(MoveProjectile(newBullet, _target));
+
+
+    }
+    private IEnumerator MoveProjectile(GameObject bulletToMove, Transform playerPosition)
+    {
+        float travelSpeed = 0;
+
+        Vector3 destination = Vector3.zero;
+        destination = playerPosition.position - bulletToMove.transform.position;
+
+        while (travelSpeed<=1)
+        {
+            Mathf.InverseLerp(0, 1, travelSpeed);
+            bulletToMove.transform.Translate(destination);
+            travelSpeed += 0.01f;
+            yield return new WaitForEndOfFrame();                
+        }
+        Destroy(bulletToMove);
+    }
 
     public void DealDamage()
     {
@@ -228,7 +261,7 @@ public class AgentLogic : MonoBehaviour, IE_Turret
 
     private void DropLoot()
     {
-        Instantiate(_lootCurrencyGameObject, _hinge.position, Quaternion.identity, null);
+        Instantiate(_lootGameObject, _hinge.position, Quaternion.identity, null);
 
     }
     private void DropCurrency()

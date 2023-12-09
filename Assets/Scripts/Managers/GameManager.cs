@@ -1,6 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour 
 {
@@ -147,5 +147,26 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+
+
+    public IEnumerator VictoryHandle()
+    {
+        UnityEngine.SceneManagement.Scene currentScene = SceneManager.GetActiveScene();
+        int nextSceneID = currentScene.buildIndex - 1;
+
+        UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneID);
+        yield return new WaitForSeconds(1);
+    }
+
+
+    public IEnumerator LoseHandle()
+    {
+        UnityEngine.SceneManagement.Scene currentScene = SceneManager.GetActiveScene();
+        int currentSceneID = currentScene.buildIndex;
+
+        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(currentSceneID);
+
+        yield return new WaitForSeconds(1);
+    }
 
 }
