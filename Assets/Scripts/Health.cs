@@ -17,11 +17,16 @@ public class Health : MonoBehaviour
     {
         if (isPlayer)
             _hitUIFeedback = GameObject.FindGameObjectWithTag("_hitUIFeedback").GetComponent<ParticleSystem>();
+        
     }
     private void Start()
     {
         DATA = GetComponent<TurretData>();
         health = DATA.Health;
+        maxHealth = DATA.MaxHealth;
+
+        if (health > maxHealth)
+            health = maxHealth;
     }
 
     public void TakeDamage(float damage)

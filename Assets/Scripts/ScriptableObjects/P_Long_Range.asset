@@ -15,7 +15,8 @@ MonoBehaviour:
   attackRange: 10.6
   attackSpeed: 0.3
   attackPower: 5
-  health: 300
+  health: 400
+  maxHealth: 400
   projectile: {fileID: 4495693096088216229, guid: 75f986d46cd18e44ea32bedc5887cd01,
     type: 3}
   projectileSpawnParticle: {fileID: 0}

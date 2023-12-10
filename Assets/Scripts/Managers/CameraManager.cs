@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+[DefaultExecutionOrder(-20)]
 public class CameraManager : MonoBehaviour
 {
     public Transform cameraBounds;
@@ -14,7 +15,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private Camera mainCamera;
 
     private Quaternion targetRotation;
-    private bool isRotating = false;
+    public bool isRotating = false;
 
     private Vector3 lastMousePosition;
 
@@ -39,8 +40,13 @@ public class CameraManager : MonoBehaviour
     {
         panLimit = cameraBounds.GetComponent<BoxCollider>().bounds.extents;
         targetRotation = transform.localRotation;
+        GetComponentInChildren<Camera>().enabled = false;
+        Invoke("Activate", 9f);
     }
-
+    void Activate()
+    {
+        GetComponentInChildren<Camera>().enabled = true;
+    }
 
     private void Update()
     {
@@ -70,35 +76,43 @@ public class CameraManager : MonoBehaviour
         float newZoom = mainCamera.fieldOfView - zoomInput * zoomSpeed;
         mainCamera.fieldOfView = Mathf.Clamp(newZoom, minZoom, maxZoom);
 
-        // Camera Rotation
-        if (Input.GetMouseButtonDown(1) && !isRotating) // Right mouse button for rotation
-        {
-            targetRotation *= Quaternion.Euler(Vector3.up * -90); // Set the target rotation to rotate counterclockwise
-            StartCoroutine(RotateCamera(targetRotation, 0.7f));
-        }
-        if (Input.GetMouseButtonDown(2) && !isRotating) // Middle mouse button for rotation
-        {
-            targetRotation *= Quaternion.Euler(Vector3.up * 90); // Set the target rotation to rotate clockwise
-            StartCoroutine(RotateCamera(targetRotation, 0.7f));
-        }
+        //// Camera Rotation
+        //if (Input.GetMouseButtonDown(1) && !isRotating) // Right mouse button for rotation
+        //{
+        //    targetRotation *= Quaternion.Euler(Vector3.up * -90); // Set the target rotation to rotate counterclockwise
+        //    StartCoroutine(RotateCamera(targetRotation, 0.7f));
+        //}
+        //if (Input.GetMouseButtonDown(2) && !isRotating) // Middle mouse button for rotation
+        //{
+        //    targetRotation *= Quaternion.Euler(Vector3.up * 90); // Set the target rotation to rotate clockwise
+        //    StartCoroutine(RotateCamera(targetRotation, 0.7f));
+        //}
     }
-  
 
-    private IEnumerator RotateCamera(Quaternion targetRotation, float duration)
+    public void StartRotation(bool isLeft) => StartCoroutine(RotateCamera(isLeft));
+    public IEnumerator RotateCamera(bool isLeft)
     {
-        isRotating = true;
-        float startTime = Time.time;
-        Quaternion initialRotation = transform.rotation;
-
-        while (Time.time - startTime < duration)
+        if (!isRotating)
         {
-            float t = (Time.time - startTime) / duration;
-            transform.rotation = Quaternion.Slerp(initialRotation, targetRotation, t);
-            yield return null;
-        }
+            if(isLeft)
+                targetRotation *= Quaternion.Euler(Vector3.up * -90);
+            else
+                targetRotation *= Quaternion.Euler(Vector3.up * 90);
 
-        transform.rotation = targetRotation;
-        isRotating = false;
+            isRotating = true;
+            float startTime = Time.time;
+            Quaternion initialRotation = transform.rotation;
+
+            while (Time.time - startTime < 0.7f)
+            {
+                float t = (Time.time - startTime) / 0.7f;
+                transform.rotation = Quaternion.Slerp(initialRotation, targetRotation, t);
+                yield return null;
+            }
+
+            transform.rotation = targetRotation;
+            isRotating = false;
+        }
     }
 
 }

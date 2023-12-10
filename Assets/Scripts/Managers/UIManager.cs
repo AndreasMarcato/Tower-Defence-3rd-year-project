@@ -195,5 +195,9 @@ public class UIManager : MonoBehaviour
         else
             _panelLoseExitConfirm.SetActive(true);
     }
+    public void RecenterCamera()
+    {
+        Camera.main.transform.position = new Vector3(TouchManager.Instance.GetPlayerAgent().position.x, Camera.main.transform.position.y, TouchManager.Instance.GetPlayerAgent().position.z);
+    }
 
 }

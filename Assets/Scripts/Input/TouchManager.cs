@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class TouchManager : MonoBehaviour
@@ -12,12 +13,11 @@ public class TouchManager : MonoBehaviour
     private PlayerInput _playerInput;
     private PlayerAudio _playerAudio;
     private NavMeshAgent _playerAgent;
-
+    public Transform GetPlayerAgent() { return _playerAgent.transform; }
 
     private InputAction _touchPositionAction;
     private InputAction _touchPressAction;
     private InputAction _touchMoveAction;
-    private InputAction _touchTwoFingersTap;
     private InputAction _touchPause;
     bool isPaused = false;
 
@@ -54,11 +54,9 @@ public class TouchManager : MonoBehaviour
         _touchPositionAction = _playerInput.actions["TouchPosition"];
         _touchPressAction = _playerInput.actions["TouchPress"];
         _touchMoveAction = _playerInput.actions["TouchMove"];
-        //_touchTwoFingersTap = _playerInput.actions["RecenterCamera"];
-        _touchPause = _playerInput.actions["Pause"];
-
         
-
+        
+        _touchPause = _playerInput.actions["Pause"];
 
     }
     // Start is called before the first frame update
@@ -75,10 +73,10 @@ public class TouchManager : MonoBehaviour
 
         _playerInput.actions.Enable();
         _touchPressAction.performed += TouchPressed;
-        //_touchTwoFingersTap.performed += RecenterCamera;
         _touchPause.performed += PauseGame;
-        //_touchPositionAction.performed += TouchPosition;
+
     }
+
 
     public void PauseGame(InputAction.CallbackContext obj)
     {
@@ -86,13 +84,11 @@ public class TouchManager : MonoBehaviour
         if (isPaused)
         {
             _touchPressAction.performed -= TouchPressed;
-            _touchTwoFingersTap.performed -= RecenterCamera;
             UIManager.Instance.HandlePause(isPaused);
         }
         else
         {
             _touchPressAction.performed += TouchPressed;
-            _touchTwoFingersTap.performed += RecenterCamera;
             UIManager.Instance.HandlePause(isPaused);
 
         }
@@ -101,33 +97,32 @@ public class TouchManager : MonoBehaviour
     public void UIPauseCallback()
     {
         _touchPressAction.performed += TouchPressed;
-        //_touchTwoFingersTap.performed += RecenterCamera;
     }
 
-    private void RecenterCamera(InputAction.CallbackContext obj)
-    {
-        _cameraManager.position = new Vector3(_playerAgent.transform.position.x, _cameraManager.position.y, _playerAgent.transform.position.z);
-    }
+    
 
     private void OnDisable()
     {
         _playerInput.actions.Disable();
         _touchPressAction.performed -= TouchPressed;
-        //_touchTwoFingersTap.performed -= RecenterCamera;
         _touchPause.performed -= PauseGame;
 
-        //_touchPositionAction.performed -= TouchPosition;
 
     }
 
-    private void TouchPosition(InputAction.CallbackContext context)
+
+    private IEnumerator WaitPass() 
     {
-        Debug.Log("TouchPosition");
+        yield return new WaitForEndOfFrame();
     }
-
     
     private void TouchPressed(InputAction.CallbackContext context)
     {
+        if (isPaused)
+            return;
+        foreach (var touch in Input.touches)
+            if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+                return;
         //Create the Ray to cast to the Tap position
         Ray ray = _camera.ScreenPointToRay(_touchPositionAction.ReadValue<Vector2>());
         RaycastHit hit;

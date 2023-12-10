@@ -9,6 +9,7 @@ public class TurretData : MonoBehaviour
     private float _attackPower;
     private float _attackSpeed;
     private float _health;
+    private float _maxHealth;
     private GameObject _projectile;
     private GameObject _spawnParticle;
     private GameObject _hitParticle;
@@ -19,6 +20,7 @@ public class TurretData : MonoBehaviour
     public float AttackPower { get => _attackPower; set => _attackPower = value; }
     public float AttackSpeed { get => _attackSpeed; set => _attackSpeed = value; }
     public float Health { get => _health; set => _health = value; }
+    public float MaxHealth { get => _maxHealth; set => _maxHealth = value; }
     public GameObject ProjectilePrefab { get => _projectile; set => _projectile = value; }
     public GameObject ProjectileSpawnParticle { get => _spawnParticle; set => _spawnParticle = value; }
     public GameObject ProjectileHitParticle { get => _hitParticle; set => _hitParticle = value; }
@@ -31,6 +33,7 @@ public class TurretData : MonoBehaviour
         AttackPower = data.attackPower;
         AttackSpeed = data.attackSpeed;
         Health = data.health;
+        MaxHealth = data.maxHealth;
         ProjectilePrefab = data.projectile;
         ProjectileSpawnParticle = data.projectileSpawnParticle;
         ProjectileHitParticle = data.ProjectileHitParticle;
