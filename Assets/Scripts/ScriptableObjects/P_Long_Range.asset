@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57960c5b8334fe44f8498d247538e945, type: 3}
   m_Name: P_Long_Range
   m_EditorClassIdentifier: 
-  attackRange: 10.6
-  attackSpeed: 0.3
+  attackRange: 18
+  attackSpeed: 1
   attackPower: 5
   health: 400
   maxHealth: 400

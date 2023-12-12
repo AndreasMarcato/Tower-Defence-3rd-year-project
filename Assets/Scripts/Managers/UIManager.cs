@@ -9,7 +9,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMPro.TextMeshProUGUI TMP_SelectionStateTextRef;
     public static UIManager Instance { get; private set; }
 
-
+    //Rotate camera
+    [SerializeField] GameObject _CameraHandleForRotation;
 
     //CANVAS
     [SerializeField] private GameObject _canvasPause;
@@ -197,7 +198,7 @@ public class UIManager : MonoBehaviour
     }
     public void RecenterCamera()
     {
-        Camera.main.transform.position = new Vector3(TouchManager.Instance.GetPlayerAgent().position.x, Camera.main.transform.position.y, TouchManager.Instance.GetPlayerAgent().position.z);
+        _CameraHandleForRotation.transform.position = new Vector3(TouchManager.Instance.GetPlayerAgent().position.x, Camera.main.transform.position.y, TouchManager.Instance.GetPlayerAgent().position.z);
     }
 
 }

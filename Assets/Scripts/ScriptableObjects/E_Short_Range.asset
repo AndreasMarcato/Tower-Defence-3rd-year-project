@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57960c5b8334fe44f8498d247538e945, type: 3}
   m_Name: E_Short_Range
   m_EditorClassIdentifier: 
-  attackRange: 14.91
+  attackRange: 15
   attackSpeed: 5
   attackPower: 15
   health: 100
-  maxHealth: 50
-  projectile: {fileID: 4495693096088216229, guid: 75f986d46cd18e44ea32bedc5887cd01,
+  maxHealth: 100
+  projectile: {fileID: 4495693096088216229, guid: 8684ede13f13ea443b0edfdb46c0dd12,
     type: 3}
   projectileSpawnParticle: {fileID: 0}
   ProjectileHitParticle: {fileID: 0}

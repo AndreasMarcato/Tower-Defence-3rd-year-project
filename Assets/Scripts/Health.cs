@@ -45,10 +45,15 @@ public class Health : MonoBehaviour
 
         if (health <= 0)
         {
-            if(!isPlayer)
-                GetComponent<AgentLogic>().HandleLoot();
+            if (!isPlayer)
+            {
+                if (gameObject.tag != "Player_S")
+                    GetComponent<AgentLogic>().HandleLoot();
+            }
             else
                 StartCoroutine(UIManager.Instance.StartDefeatHandle());
+
+            Destroy(this);
             Destroy(gameObject);
         }
     }

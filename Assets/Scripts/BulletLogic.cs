@@ -12,7 +12,7 @@ public class BulletLogic : MonoBehaviour
     Rigidbody rb;
     [SerializeField] float force;
     [SerializeField] float damage = 20;
-
+    [SerializeField] private bool isPB = true;
 
     private void Awake()
     {
@@ -47,6 +47,11 @@ public class BulletLogic : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.tag == "Player" && isPB)
+            return;
+        if (collision.gameObject.tag == "Enemy" && !isPB)
+            return;
+
         if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
         {
             collision.gameObject.GetComponent<Health>().TakeDamage(damage);
@@ -55,5 +60,7 @@ public class BulletLogic : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        else
+            Destroy(gameObject);
     }
 }

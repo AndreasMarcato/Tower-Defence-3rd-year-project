@@ -17,6 +17,9 @@ TagManager:
   - _hitUIFeedback
   - PickUp
   - Ground
+  - SubUnit
+  - Player_S
+  - Enemy_S
   layers:
   - Default
   - TransparentFX
